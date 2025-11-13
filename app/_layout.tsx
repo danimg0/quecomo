@@ -1,27 +1,23 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
-import {
-  MD3LightTheme as DefaultTheme,
-  PaperProvider,
-} from 'react-native-paper';
+import '../global.css';
 
 const queryClient = new QueryClient();
 
-const theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: 'tomato',
-    secondary: 'yellow',
-  },
-};
+// const theme = {
+//   colors: {
+//     primary: 'tomato',
+//     secondary: 'yellow',
+//   },
+// };
+
+// Aqui se cargan las fuentes y lo que sea necesario al principio. Es donde entra antes que nada la app
 
 export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
-      <PaperProvider theme={theme}>
-        <Stack />;
-      </PaperProvider>
+      <Stack screenOptions={{ headerShown: false }} />
+      {/* Screens, tab y recipe/[id], options tocadas en cada ruta */}
     </QueryClientProvider>
   );
 }
