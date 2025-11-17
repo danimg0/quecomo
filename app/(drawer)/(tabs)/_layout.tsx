@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
+import { DrawerToggleButton } from '@react-navigation/drawer';
 import { Tabs } from 'expo-router';
-import { TouchableOpacity } from 'react-native';
 
 export default function TabLayout() {
   return (
@@ -9,14 +9,8 @@ export default function TabLayout() {
         headerShown: true,
         headerTitleAlign: 'center',
         tabBarActiveTintColor: '#010101',
-        headerLeft: () => (
-          <TouchableOpacity
-            onPress={() => console.log('Menu pressed')}
-            className="ml-4"
-          >
-            <Ionicons name="menu" size={28} color="#425433" />
-          </TouchableOpacity>
-        ),
+        // Componente automatico. Detecta el drawer padre y se estiliza solo
+        headerLeft: () => <DrawerToggleButton />,
       }}
     >
       <Tabs.Screen

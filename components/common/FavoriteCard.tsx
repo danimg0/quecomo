@@ -8,27 +8,28 @@ import ThemedText from '../themed/ThemedText';
 
 const FavoriteCard = ({ recipe }: { recipe: Recipe }) => {
   return (
-    <View className="h-fit rounded-lg bg-white w-full">
-      <View className="flex flex-row items-center justify-between p-2">
-        <View className="flex flex-row gap-x-4">
-          <Image
-            style={{
-              width: 80,
-              height: 80,
-              borderRadius: 8,
-            }}
-            source={recipe.photoUrl}
-          />
-          <View className="flex flex-col mt-2">
-            <ThemedText variant="h1">{recipe.title}</ThemedText>
-            <ThemedText>{recipe.duration} minutos</ThemedText>
+    <Link href={`/recipe/${recipe.id}`}>
+      <View className="h-fit rounded-lg bg-white w-full">
+        <View className="flex flex-row items-center justify-between p-2">
+          <View className="flex flex-row gap-x-4">
+            <Image
+              style={{
+                width: 80,
+                height: 80,
+                borderRadius: 8,
+              }}
+              source={recipe.photoUrl}
+            />
+            <View className="flex flex-col mt-2">
+              <ThemedText variant="h2">{recipe.title}</ThemedText>
+              <ThemedText>{recipe.duration} minutos</ThemedText>
+            </View>
           </View>
-        </View>
-        <Link href={`/recipe/${recipe.id}`}>
+
           <Ionicons name="arrow-forward" size={30} color={'gray'} />
-        </Link>
+        </View>
       </View>
-    </View>
+    </Link>
   );
 };
 

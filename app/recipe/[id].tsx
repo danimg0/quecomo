@@ -4,10 +4,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { ScrollView, View, useWindowDimensions } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 const RecipeDetail = () => {
-  const { height, width } = useWindowDimensions();
   const { id } = useLocalSearchParams();
 
   const recipe = MOCK_RECIPES.find((item) => item.id === id);
