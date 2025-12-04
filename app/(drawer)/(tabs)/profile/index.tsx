@@ -1,6 +1,6 @@
+import ThemedView from '@/components/common/ThemedView';
 import ProfileHeader from '@/components/settings/ProfileHeader';
 import SettingsOptions from '@/components/settings/SettingsOptions';
-import ThemedView from '@/components/themed/ThemedView';
 import React from 'react';
 import { View } from 'react-native';
 

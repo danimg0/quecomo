@@ -1,9 +1,9 @@
-import { Category } from '@/types/category.type';
+import { Category } from '@/core/categories/domain/category.entity';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
 import React from 'react';
 import { useWindowDimensions, View } from 'react-native';
-import ThemedText from '../themed/ThemedText';
+import ThemedText from '../common/ThemedText';
 
 const CategoryCard = ({ category }: { category: Category }) => {
   const { width } = useWindowDimensions();

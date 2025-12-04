@@ -1,6 +1,6 @@
+import ThemedButton from '@/components/common/ThemedButton';
+import ThemedText from '@/components/common/ThemedText';
 import SelectFilter from '@/components/search/SelectFilter';
-import ThemedButton from '@/components/themed/ThemedButton';
-import ThemedText from '@/components/themed/ThemedText';
 import { Checkbox } from 'expo-checkbox';
 import React from 'react';
 import { View } from 'react-native';

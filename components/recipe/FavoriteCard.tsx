@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 import { Link } from 'expo-router';
 import React from 'react';
 import { View } from 'react-native';
-import ThemedText from '../themed/ThemedText';
+import ThemedText from '../common/ThemedText';
 
 const FavoriteCard = ({ recipe }: { recipe: Recipe }) => {
   return (

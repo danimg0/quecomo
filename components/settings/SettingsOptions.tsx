@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { View } from 'react-native';
-import ThemedText from '../themed/ThemedText';
+import ThemedText from '../common/ThemedText';
 
 const options = [
   {

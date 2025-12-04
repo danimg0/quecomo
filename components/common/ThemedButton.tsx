@@ -13,7 +13,8 @@ interface Props extends PressableProps {
   children: string;
   className?: string;
   variant: 'contained' | 'text-only';
-  color: keyof typeof colorMap;
+  color?: keyof typeof colorMap;
+  onPress: () => void;
 }
 
 const ThemedButton = ({
@@ -21,21 +22,26 @@ const ThemedButton = ({
   className,
   color = 'primary',
   variant = 'contained',
+  onPress,
 }: Props) => {
   const finalClassName = twMerge(className, colorMap[color]);
 
   if (variant === 'text-only') {
     return (
       <Pressable
+        onPress={onPress}
         className={`w-ful rounded-lg p-4 ${finalClassName} bg-transparent`}
       >
-        <ThemedText className="text-white text-center ">{children}</ThemedText>
+        <ThemedText className="text-black text-center ">{children}</ThemedText>
       </Pressable>
     );
   }
 
   return (
-    <Pressable className={`w-ful rounded-lg p-4  ${finalClassName}`}>
+    <Pressable
+      onPress={onPress}
+      className={`w-ful rounded-lg p-4  ${finalClassName}`}
+    >
       <ThemedText className="text-white text-center" variant="h3">
         {children}
       </ThemedText>
