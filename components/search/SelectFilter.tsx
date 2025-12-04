@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import ThemedText from '../themed/ThemedText';
+import ThemedText from '../common/ThemedText';
 
 interface Props {
   title: string;

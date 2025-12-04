@@ -16,7 +16,9 @@ const queryClient = new QueryClient();
 export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack screenOptions={{ headerShown: false }} />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="auth" />
+      </Stack>
       {/* Screens, tab y recipe/[id], options tocadas en cada ruta */}
     </QueryClientProvider>
   );
