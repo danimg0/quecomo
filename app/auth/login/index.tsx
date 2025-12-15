@@ -4,8 +4,11 @@ import ThemedView from '@/components/common/ThemedView';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { Image } from 'expo-image';
 import { Link, router } from 'expo-router';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
+  ActivityIndicator,
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -33,13 +36,25 @@ const LoginScreen = () => {
       password: '',
     },
   });
-  const { login, isLoading, errorMessage } = useAuth();
-  const onSubmit = (data: FormData) => {
-    const user = login(data.email, data.password);
-    console.log(user);
+  const { login, isLoading, errorMessage, isAuthenticated } = useAuth();
+
+  //Solo llama la accion, no navega
+  const onSubmit = async (data: FormData) => {
+    await login(data.email, data.password);
   };
 
-  return (
+  useEffect(() => {
+    if (isAuthenticated) router.replace('/home');
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (errorMessage)
+      Alert.alert('Error al iniciar sesion' /*  errorMessage  */);
+  }, [errorMessage]);
+
+  return isLoading ? (
+    <ActivityIndicator />
+  ) : (
     <ThemedView>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
