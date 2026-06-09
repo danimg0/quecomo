@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { AUTH_TOKEN_KEY } from '@/api/axios.config';
 import { login, register } from '../actions/auth.actions';
 import { User } from '../domain/user.entity';
 
@@ -18,7 +19,7 @@ interface AuthState {
     email: string,
     password: string
   ) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   clearError: () => void;
 }
 
@@ -55,17 +56,21 @@ export const useAuthStore = create<AuthState>()(
         set({ status: 'checking', errorMessage: null });
         const user = await register(username, email, password);
         set({ status: 'authenticated', user: user, errorMessage: null });
-      } catch (error) {
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.message || 'No se pudo crear la cuenta';
         set({
           status: 'unauthenticated',
-          errorMessage: 'No se pudo crear la cuenta',
+          user: null,
+          errorMessage,
         });
       }
     },
 
-    logout: () => {
+    logout: async () => {
+      // Borramos el Bearer token del dispositivo
+      await AsyncStorage.removeItem(AUTH_TOKEN_KEY);
       set({ status: 'unauthenticated', user: null, errorMessage: null });
-      // Aquí podrías llamar a una acción de logout del backend si quisieras borrar la cookie
     },
 
     clearError: () => set({ errorMessage: null }),

@@ -8,6 +8,5 @@ export const mapUserDtoToEntity = (user: UserDto): User => {
     email: user.email,
     imageUrl: user.imageUrl,
     favorites: user.favorites,
-    sessionToken: user.authentication.sessionToken,
   };
 };

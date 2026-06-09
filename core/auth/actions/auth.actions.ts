@@ -1,19 +1,18 @@
-import { queComoApi } from '@/api/axios.config';
-import { UserDto } from '../dtos/user.dto';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AUTH_TOKEN_KEY, queComoApi } from '@/api/axios.config';
+import { AuthResponseDto } from '../dtos/user.dto';
 import { mapUserDtoToEntity } from '../mappers/user.mapper';
 
 export const login = async (email: string, password: string) => {
-  try {
-    const { data } = await queComoApi.post<UserDto>('/auth/login', {
-      email,
-      password,
-    });
+  const { data } = await queComoApi.post<AuthResponseDto>('/auth/login', {
+    email,
+    password,
+  });
 
-    return mapUserDtoToEntity(data);
-  } catch (error) {
-    console.log(error);
-    throw new Error('');
-  }
+  // Guardamos el Bearer token; el interceptor de Axios lo añadirá en cada petición.
+  await AsyncStorage.setItem(AUTH_TOKEN_KEY, data.token);
+
+  return mapUserDtoToEntity(data.user);
 };
 
 export const register = async (
@@ -21,16 +20,13 @@ export const register = async (
   email: string,
   password: string
 ) => {
-  //todo revisar lo que trae
-  try {
-    const { data } = await queComoApi.post('/auth/register', {
-      username,
-      email,
-      password,
-    });
+  const { data } = await queComoApi.post<AuthResponseDto>('/auth/register', {
+    username,
+    email,
+    password,
+  });
 
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+  await AsyncStorage.setItem(AUTH_TOKEN_KEY, data.token);
+
+  return mapUserDtoToEntity(data.user);
 };
