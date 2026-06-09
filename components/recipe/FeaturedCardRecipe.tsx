@@ -9,6 +9,10 @@ import ThemedText from '../common/ThemedText';
 const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
+// Imagen de respaldo si una receta no tiene photoUrl
+const PLACEHOLDER_IMAGE =
+  'https://placehold.co/400x400/f97316/white?text=QueComo';
+
 const FeaturedCardRecipe = ({ recipe }: { recipe: Recipe }) => {
   const { width } = useWindowDimensions();
 
@@ -28,10 +32,7 @@ const FeaturedCardRecipe = ({ recipe }: { recipe: Recipe }) => {
         <View style={{ width: cardWidth }}>
           {/* Props: titulo, dificultad, duracion, foto */}
           <Image
-            // source={recipe.photoUrl}
-            source={
-              'https://fastly.picsum.photos/id/23/3887/4899.jpg?hmac=2fo1Y0AgEkeL2juaEBqKPbnEKm_5Mp0M2nuaVERE6eE'
-            }
+            source={recipe.photoUrl || PLACEHOLDER_IMAGE}
             contentFit="cover"
             placeholder={{ blurhash }}
             transition={1000}
