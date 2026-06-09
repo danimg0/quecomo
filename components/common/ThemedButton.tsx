@@ -7,6 +7,7 @@ const colorMap = {
   primary: 'bg-orange-500',
   secondary: 'bg-orange-300',
   tertiary: 'bg-orange-200',
+  danger: 'bg-red-500',
 };
 
 interface Props extends PressableProps {

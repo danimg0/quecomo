@@ -8,6 +8,7 @@ export const useAuth = () => {
   const login = useAuthStore((state) => state.login);
   const register = useAuthStore((state) => state.register);
   const logout = useAuthStore((state) => state.logout);
+  const deleteAccount = useAuthStore((state) => state.deleteAccount);
 
   return {
     //Estado
@@ -21,5 +22,6 @@ export const useAuth = () => {
     login,
     register,
     logout,
+    deleteAccount,
   };
 };

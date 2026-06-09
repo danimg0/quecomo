@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { AUTH_TOKEN_KEY } from '@/api/axios.config';
 import { login, register } from '../actions/auth.actions';
+import { deleteAccount as deleteAccountRequest } from '../actions/delete-account.action';
 import { User } from '../domain/user.entity';
 
 // Se define lo que contien este estado y que hace
@@ -20,6 +21,7 @@ interface AuthState {
     password: string
   ) => Promise<void>;
   logout: () => Promise<void>;
+  deleteAccount: () => Promise<void>;
   clearError: () => void;
 }
 
@@ -69,6 +71,13 @@ export const useAuthStore = create<AuthState>()(
 
     logout: async () => {
       // Borramos el Bearer token del dispositivo
+      await AsyncStorage.removeItem(AUTH_TOKEN_KEY);
+      set({ status: 'unauthenticated', user: null, errorMessage: null });
+    },
+
+    deleteAccount: async () => {
+      // Borra la cuenta en el backend y limpia la sesión local
+      await deleteAccountRequest();
       await AsyncStorage.removeItem(AUTH_TOKEN_KEY);
       set({ status: 'unauthenticated', user: null, errorMessage: null });
     },
