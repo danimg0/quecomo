@@ -4,12 +4,14 @@ import axios from 'axios';
 // Clave bajo la que se guarda el Bearer token en el almacenamiento del dispositivo
 export const AUTH_TOKEN_KEY = 'auth-token';
 
-// const backendLocal = '192.168.246.1';
+// Backend en producción (Railway). Para desarrollar contra el backend local,
+// comenta esta línea y descomenta la de abajo con tu IP de la red local.
+const API_URL = 'https://quecomobackend-production.up.railway.app';
+// const API_URL = 'http://192.168.1.135:8080';
 
 export const queComoApi = axios.create({
-  //baseURL: `http://192.168.1.148:8080`,
-  baseURL: `http://192.168.1.135:8080`,
-  timeout: 5000,
+  baseURL: API_URL,
+  timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
   },
