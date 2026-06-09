@@ -1,27 +1,41 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import ThemedText from '../common/ThemedText';
 
 interface Props {
   title: string;
-  filtros: string[]; //tipo de filtro, ver bien como pasar que representa cada cosa despues
+  filtros: string[];
+  selected?: string;
+  // Pulsar el filtro ya seleccionado lo deselecciona (devuelve undefined)
+  onSelect: (filtro?: string) => void;
 }
 
-const SelectFilter = (props: Props) => {
+const SelectFilter = ({ title, filtros, selected, onSelect }: Props) => {
   return (
     <View>
-      <ThemedText variant="h2">{props.title}</ThemedText>
+      <ThemedText variant="h2">{title}</ThemedText>
       <View className="flex flex-wrap flex-row gap-4 justify-between mt-4">
-        {props.filtros.map((filtro) => (
-          <View
-            key={filtro}
-            className="bg-orange-200 rounded-lg p-4 w-[47%] h-fit"
-          >
-            <ThemedText variant="h3" className="text-center font-normal">
-              {filtro}
-            </ThemedText>
-          </View>
-        ))}
+        {filtros.map((filtro) => {
+          const isSelected = selected === filtro;
+          return (
+            <Pressable
+              key={filtro}
+              onPress={() => onSelect(isSelected ? undefined : filtro)}
+              className={`rounded-lg p-4 w-[47%] h-fit ${
+                isSelected ? 'bg-orange-500' : 'bg-orange-200'
+              }`}
+            >
+              <ThemedText
+                variant="h3"
+                className={`text-center font-normal ${
+                  isSelected ? 'text-white' : ''
+                }`}
+              >
+                {filtro}
+              </ThemedText>
+            </Pressable>
+          );
+        })}
       </View>
     </View>
   );

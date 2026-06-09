@@ -1,64 +1,76 @@
 import ThemedButton from '@/components/common/ThemedButton';
-import ThemedText from '@/components/common/ThemedText';
 import SelectFilter from '@/components/search/SelectFilter';
-import { Checkbox } from 'expo-checkbox';
-import React from 'react';
-import { View } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { router } from 'expo-router';
+import React, { useState } from 'react';
+import { TextInput, View } from 'react-native';
+
+// Etiqueta visible -> rango de minutos que se manda al backend
+const DURATION_OPTIONS: Record<
+  string,
+  { minDuration?: number; maxDuration?: number }
+> = {
+  'Menos de 15 min': { maxDuration: 15 },
+  '15-30 min': { minDuration: 15, maxDuration: 30 },
+  '30-60 min': { minDuration: 30, maxDuration: 60 },
+  'Más de 60 min': { minDuration: 60 },
+};
+
+// Etiqueta visible -> enum del backend
+const DIFFICULTY_OPTIONS: Record<string, 'EASY' | 'MEDIUM' | 'HARD'> = {
+  Fácil: 'EASY',
+  Media: 'MEDIUM',
+  Difícil: 'HARD',
+};
 
 const SearchScreen = () => {
+  const [title, setTitle] = useState('');
+  const [duration, setDuration] = useState<string>();
+  const [difficulty, setDifficulty] = useState<string>();
+
+  const onSearch = () => {
+    const range = duration ? DURATION_OPTIONS[duration] : {};
+    const params: Record<string, string> = {};
+
+    if (title.trim()) params.title = title.trim();
+    if (range.minDuration) params.minDuration = String(range.minDuration);
+    if (range.maxDuration) params.maxDuration = String(range.maxDuration);
+    if (difficulty) params.difficulty = DIFFICULTY_OPTIONS[difficulty];
+
+    router.push({ pathname: '/search-results', params });
+  };
+
   return (
     <View className="p-4 h-full">
-      <SelectFilter
-        title="Tiempo de preparacion"
-        filtros={['Menos de 15 min', '15-30 min', '30-60 min', 'Mas de 60 min']}
+      {/* Texto a buscar */}
+      <TextInput
+        className="border-2 border-gray-300 rounded-full placeholder:text-gray-400 p-4"
+        value={title}
+        placeholder="Buscar receta por nombre"
+        onChangeText={setTitle}
+        returnKeyType="search"
+        onSubmitEditing={onSearch}
       />
-      <View className="p-4" />
+
+      <View className="p-3" />
+
+      <SelectFilter
+        title="Tiempo de preparación"
+        filtros={Object.keys(DURATION_OPTIONS)}
+        selected={duration}
+        onSelect={setDuration}
+      />
+
+      <View className="p-3" />
+
       <SelectFilter
         title="Nivel de dificultad"
-        filtros={['Muy Facil', 'Facil', 'Media', 'Dificil']}
+        filtros={Object.keys(DIFFICULTY_OPTIONS)}
+        selected={difficulty}
+        onSelect={setDifficulty}
       />
-      <View className="p-4" />
-      <View>
-        <ThemedText variant="h2">Dietas y restricciones</ThemedText>
-        <View className="gap-y-4 mt-4 flex flex-wrap flex-row p-4 justify-between">
-          <View className="flex flex-row gap-2 w-[45%]">
-            <Checkbox className="" color={'orange'} value={false} />
-            <ThemedText variant="h3" className="font-normal">
-              Restriciones
-            </ThemedText>
-          </View>
-          <View className="flex flex-row gap-2 w-[45%]">
-            <Checkbox className="" color={'orange'} value={true} />
-            <ThemedText variant="h3" className="font-normal">
-              Restriciones
-            </ThemedText>
-          </View>
-          <View className="flex flex-row gap-2 w-[45%]">
-            <Checkbox className="" color={'orange'} value={false} />
-            <ThemedText variant="h3" className="font-normal">
-              Restriciones
-            </ThemedText>
-          </View>
-          <View className="flex flex-row gap-2 w-[45%]">
-            <Checkbox className="" color={'orange'} value={false} />
-            <ThemedText variant="h3" className="font-normal">
-              Restriciones
-            </ThemedText>
-          </View>
-        </View>
-      </View>
-      {/* ThemedSearch */}
-      <View>
-        <TextInput
-          className="border-2 border-gray-300 rounded-full placeholder:text-gray-400 p-4 mt-5"
-          value={''}
-          placeholder="Buscar"
-          onChange={() => {}}
-        />
-      </View>
+
       <View className="absolute bottom-5 p-4 left-0 right-0">
-        <ThemedButton color="primary" variant="contained">
+        <ThemedButton color="primary" variant="contained" onPress={onSearch}>
           Buscar
         </ThemedButton>
       </View>
