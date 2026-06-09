@@ -67,8 +67,8 @@ const LoginScreen = () => {
           <View className="flex-1 justify-center gap-4 items-center">
             <View className="items-center mb-5 gap-4">
               <Image
-                source={require('@/assets/images/react-logo.png')}
-                style={{ width: 80, height: 80 }}
+                source={require('@/assets/images/icon.png')}
+                style={{ width: 80, height: 80, borderRadius: 50 }}
                 contentFit="contain"
               />
               <ThemedText variant="h1" className="text-3xl font-bold">
@@ -79,7 +79,7 @@ const LoginScreen = () => {
               </ThemedText>
             </View>
 
-            <View className="flex-col gap-4 w-[70%] mb-5">
+            <View className="flex-col gap-4 w-[90%] mb-5">
               <Controller
                 control={control}
                 rules={{
