@@ -1,18 +1,34 @@
 import ThemedText from '@/components/common/ThemedText';
 import { useRecipeNav } from '@/core/recipes/store/recipe-nav.store';
+import { useAuth } from '@/hooks/auth/useAuth';
+import { useFavorites } from '@/hooks/recipes/useFavorites';
 import { useRecipe } from '@/hooks/recipes/useRecipe';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { ScrollView, View } from 'react-native';
 
 const RecipeDetail = () => {
   const { id } = useLocalSearchParams();
+  const recipeId = id as string;
 
   const selectedRecipe = useRecipeNav((s) => s.selectedRecipe);
 
-  const { recipe } = useRecipe(id as string, selectedRecipe ?? undefined);
+  const { recipe } = useRecipe(recipeId, selectedRecipe ?? undefined);
+
+  const { isAuthenticated } = useAuth();
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const fav = isFavorite(recipeId);
+
+  const onToggleFavorite = () => {
+    // Invitados: pedimos login antes de poder guardar favoritos
+    if (!isAuthenticated) {
+      router.push('/auth/login');
+      return;
+    }
+    toggleFavorite(recipeId);
+  };
 
   return (
     <>
@@ -23,12 +39,10 @@ const RecipeDetail = () => {
           title: recipe?.title || 'Receta', // Pone el título de la receta en el header
           headerRight: () => (
             <Ionicons
-              name={recipe?.favorite ? 'heart' : 'heart-outline'}
-              color={recipe?.favorite ? 'red' : ''}
+              name={fav ? 'heart' : 'heart-outline'}
+              color={fav ? 'red' : 'gray'}
               size={25}
-              onPress={() => {
-                /* Guardar/quitar como favorito */
-              }}
+              onPress={onToggleFavorite}
             />
           ),
         }}

@@ -1,4 +1,4 @@
-import { Recipe } from '@/types/recipe.type';
+import { Recipe } from '@/core/recipes/domain/recipe.entity';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';

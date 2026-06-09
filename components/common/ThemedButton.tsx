@@ -14,7 +14,7 @@ interface Props extends PressableProps {
   className?: string;
   variant: 'contained' | 'text-only';
   color?: keyof typeof colorMap;
-  onPress: () => void;
+  onPress?: () => void;
 }
 
 const ThemedButton = ({
