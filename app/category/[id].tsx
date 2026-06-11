@@ -1,3 +1,4 @@
+import ThemedSpinner from '@/components/common/ThemedSpinner';
 import ThemedText from '@/components/common/ThemedText';
 import ThemedView from '@/components/common/ThemedView';
 import FeaturedCardRecipe from '@/components/recipe/FeaturedCardRecipe';
@@ -7,18 +8,22 @@ import React from 'react';
 import { FlatList } from 'react-native';
 
 const CategoryScreen = () => {
-  const { id } = useLocalSearchParams();
+  // name llega desde CategoryCard para pintar el título sin otra petición
+  const { id, name } = useLocalSearchParams<{ id: string; name?: string }>();
 
-  const { recipes } = useRecipes(id as string);
+  const { recipes, recipesQuery } = useRecipes(id);
 
   return (
     <ThemedView safe>
       <ThemedText variant="h1" className="p-4">
-        {/* {catName} */}
-        Categoria
+        {name || 'Categoría'}
       </ThemedText>
-      {!recipes ? (
-        <ThemedText>No hay recetas en esta categoria</ThemedText>
+      {recipesQuery.isLoading ? (
+        <ThemedSpinner className="mt-10" />
+      ) : recipes.length === 0 ? (
+        <ThemedText className="px-4 text-gray-500 dark:text-gray-400">
+          No hay recetas en esta categoría.
+        </ThemedText>
       ) : (
         <FlatList
           numColumns={2}

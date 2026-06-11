@@ -1,4 +1,5 @@
 import { Recipe } from '@/core/recipes/domain/recipe.entity';
+import { useRecipeNav } from '@/core/recipes/store/recipe-nav.store';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
@@ -7,9 +8,15 @@ import { View } from 'react-native';
 import ThemedText from '../common/ThemedText';
 
 const FavoriteCard = ({ recipe }: { recipe: Recipe }) => {
+  const setSelectedRecipe = useRecipeNav((s) => s.setSelectedRecipe);
+
   return (
-    <Link href={`/recipe/${recipe.id}`}>
-      <View className="h-fit rounded-lg bg-white w-full">
+    <Link
+      href={`/recipe/${recipe.id}`}
+      // Igual que en Home: pasamos la receta para que el detalle abra al instante
+      onPress={() => setSelectedRecipe(recipe)}
+    >
+      <View className="h-fit rounded-lg bg-white dark:bg-neutral-900 w-full">
         <View className="flex flex-row items-center justify-between p-2">
           <View className="flex flex-row gap-x-4">
             <Image

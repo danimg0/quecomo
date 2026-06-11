@@ -15,5 +15,6 @@ export const useSearchRecipes = (filters: SearchFilters) => {
     recipes: searchQuery.data ?? [],
     isLoading: searchQuery.isLoading,
     isError: searchQuery.isError,
+    refetch: searchQuery.refetch,
   };
 };

@@ -19,5 +19,7 @@ export const getRecipesByCategory = async (
     return recipes;
   } catch (error) {
     console.log('Error en action', error);
+    // Relanzamos para que react-query marque isError y la UI pueda mostrar "Reintentar"
+    throw error;
   }
 };

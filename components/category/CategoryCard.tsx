@@ -10,7 +10,13 @@ const CategoryCard = ({ category }: { category: Category }) => {
   const cardWidth = (width - 48) / 2; // (ancho total - padding lateral - gap) / 2
 
   return (
-    <Link href={`/category/${category.id}`}>
+    <Link
+      // Pasamos también el nombre para que la pantalla pinte el título sin otra petición
+      href={{
+        pathname: '/category/[id]',
+        params: { id: category.id, name: category.name },
+      }}
+    >
       <View className="relative">
         <Image
           source={category.imageUrl}

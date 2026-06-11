@@ -9,5 +9,7 @@ export const getRecipeById = async (id: string) => {
     return mapBackendRecipeToFrontend(data);
   } catch (error) {
     console.log('error', error);
+    // Relanzamos para que react-query marque isError en vez de devolver undefined
+    throw error;
   }
 };

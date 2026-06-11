@@ -12,14 +12,10 @@ export const useRecipes = (categoryId?: string) => {
 
     // queryFn recibe ya el pageParam automaticamente
     queryFn: async ({ pageParam }) => {
-      console.log('DEBUG llamando a useRecipes en recipesQuery');
-
       let recipes: Recipe[] | undefined = [];
       if (!categoryId) {
         recipes = await getAllRecipes(pageParam, 6);
       } else {
-        console.log('DEBUG Llamando por categoria');
-
         recipes = await getRecipesByCategory(categoryId);
       }
 

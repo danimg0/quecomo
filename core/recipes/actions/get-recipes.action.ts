@@ -14,5 +14,7 @@ export const getAllRecipes = async (page: number, limit: number = 10) => {
     return dataMapped;
   } catch (error) {
     console.log('Error en action', error);
+    // Relanzamos para que react-query marque isError y la UI pueda mostrar "Reintentar"
+    throw error;
   }
 };
