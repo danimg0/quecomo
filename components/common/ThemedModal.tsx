@@ -1,6 +1,7 @@
 import React from 'react';
-import { ActivityIndicator, Modal, Pressable, View } from 'react-native';
+import { Modal, Pressable, View } from 'react-native';
 import ThemedButton from './ThemedButton';
+import ThemedSpinner from './ThemedSpinner';
 import ThemedText from './ThemedText';
 
 interface Props {
@@ -42,20 +43,20 @@ const ThemedModal = ({
         {/* Tarjeta: el onPress vacío evita que se cierre al pulsar dentro */}
         <Pressable
           onPress={() => {}}
-          className="w-full gap-4 rounded-2xl bg-white p-6"
+          className="w-full gap-4 rounded-2xl bg-white dark:bg-neutral-900 p-6"
         >
           <ThemedText variant="h2" className="text-center">
             {title}
           </ThemedText>
 
           {message ? (
-            <ThemedText className="text-center text-gray-500">
+            <ThemedText className="text-center text-gray-500 dark:text-gray-400">
               {message}
             </ThemedText>
           ) : null}
 
           {loading ? (
-            <ActivityIndicator size="large" color="#f97316" className="my-2" />
+            <ThemedSpinner className="my-2" />
           ) : (
             <View className="mt-2 gap-3">
               <ThemedButton

@@ -22,7 +22,7 @@ const SelectFilter = ({ title, filtros, selected, onSelect }: Props) => {
               key={filtro}
               onPress={() => onSelect(isSelected ? undefined : filtro)}
               className={`rounded-lg p-4 w-[47%] h-fit ${
-                isSelected ? 'bg-orange-500' : 'bg-orange-200'
+                isSelected ? 'bg-primary' : 'bg-orange-200 dark:bg-neutral-800'
               }`}
             >
               <ThemedText

@@ -1,19 +1,18 @@
 import ThemedButton from '@/components/common/ThemedButton';
+import ThemedSpinner from '@/components/common/ThemedSpinner';
 import ThemedText from '@/components/common/ThemedText';
+import ThemedTextInput from '@/components/common/ThemedTextInput';
 import ThemedView from '@/components/common/ThemedView';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { Image } from 'expo-image';
-import { Link, router } from 'expo-router';
+import { Link, Redirect, router } from 'expo-router';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
-  ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Text,
-  TextInput,
   View,
 } from 'react-native';
 
@@ -44,16 +43,18 @@ const LoginScreen = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) router.replace('/home');
-  }, [isAuthenticated]);
-
-  useEffect(() => {
     if (errorMessage)
       Alert.alert('Error al iniciar sesion' /*  errorMessage  */);
   }, [errorMessage]);
 
+  // Redirect declarativo: seguro aunque el router aún no esté montado
+  // (con useEffect + router.replace petaba al recargar con sesión guardada)
+  if (isAuthenticated) {
+    return <Redirect href="/home" />;
+  }
+
   return isLoading ? (
-    <ActivityIndicator />
+    <ThemedSpinner fullScreen />
   ) : (
     <ThemedView>
       <KeyboardAvoidingView
@@ -74,7 +75,7 @@ const LoginScreen = () => {
               <ThemedText variant="h1" className="text-3xl font-bold">
                 Bienvenido
               </ThemedText>
-              <ThemedText className="text-gray-500">
+              <ThemedText className="text-gray-500 dark:text-gray-400">
                 Inicia sesión para continuar
               </ThemedText>
             </View>
@@ -87,23 +88,20 @@ const LoginScreen = () => {
                 }}
                 name="email"
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <View className=" bg-white border border-gray-100 p-4 rounded-lg shadow-sm">
-                    {/* <View className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4"> */}
-                    <TextInput
-                      placeholder="Correo electrónico"
-                      placeholderTextColor="#9CA3AF"
-                      autoCapitalize="none"
-                      value={value}
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      keyboardType="email-address"
-                      className="text-base text-gray-800 "
-                    />
-                  </View>
+                  <ThemedTextInput
+                    placeholder="Correo electrónico"
+                    autoCapitalize="none"
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    keyboardType="email-address"
+                  />
                 )}
               />
               {errors.email && (
-                <Text className="text-black">This is required.</Text>
+                <ThemedText className="text-red-500 text-sm">
+                  Este campo es obligatorio.
+                </ThemedText>
               )}
               <Controller
                 control={control}
@@ -112,30 +110,25 @@ const LoginScreen = () => {
                 }}
                 name="password"
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <View className=" bg-white border border-gray-100 p-4 rounded-lg shadow-sm">
-                    <TextInput
-                      placeholder="Contraseña"
-                      autoCapitalize="none"
-                      placeholderTextColor="#9CA3AF"
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      secureTextEntry
-                      value={value}
-                      className="text-base text-gray-800 "
-                    />
-                  </View>
+                  <ThemedTextInput
+                    placeholder="Contraseña"
+                    autoCapitalize="none"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    secureTextEntry
+                    value={value}
+                  />
                 )}
               />
               {errors.password && (
-                <Text className="text-black">This is required.</Text>
+                <ThemedText className="text-red-500 text-sm">
+                  Este campo es obligatorio.
+                </ThemedText>
               )}
             </View>
 
             {/* Botones */}
             <View className="flex-col gap-4 w-[70%]">
-              {/* {isLoading ? (
-            <ActivityIndicator size="large" color="orange" />
-          ) : ( */}
               <ThemedButton
                 color="primary"
                 variant="contained"
@@ -143,7 +136,6 @@ const LoginScreen = () => {
               >
                 Iniciar sesión
               </ThemedButton>
-              {/* )} */}
 
               <ThemedButton
                 color="secondary"

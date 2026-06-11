@@ -1,19 +1,18 @@
 import ThemedButton from '@/components/common/ThemedButton';
+import ThemedSpinner from '@/components/common/ThemedSpinner';
 import ThemedText from '@/components/common/ThemedText';
+import ThemedTextInput from '@/components/common/ThemedTextInput';
 import ThemedView from '@/components/common/ThemedView';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { Image } from 'expo-image';
-import { Link, router } from 'expo-router';
+import { Link, Redirect } from 'expo-router';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
-  ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Text,
-  TextInput,
   View,
 } from 'react-native';
 
@@ -49,15 +48,17 @@ const RegisterScreen = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) router.replace('/home');
-  }, [isAuthenticated]);
-
-  useEffect(() => {
     if (errorMessage) Alert.alert('Error al crear la cuenta', errorMessage);
   }, [errorMessage]);
 
+  // Redirect declarativo: seguro aunque el router aún no esté montado
+  // (con useEffect + router.replace petaba al recargar con sesión guardada)
+  if (isAuthenticated) {
+    return <Redirect href="/home" />;
+  }
+
   return isLoading ? (
-    <ActivityIndicator />
+    <ThemedSpinner fullScreen />
   ) : (
     <ThemedView>
       <KeyboardAvoidingView
@@ -78,7 +79,7 @@ const RegisterScreen = () => {
               <ThemedText variant="h1" className="text-3xl font-bold">
                 Crear cuenta
               </ThemedText>
-              <ThemedText className="text-gray-500">
+              <ThemedText className="text-gray-500 dark:text-gray-400">
                 Regístrate para guardar tus recetas favoritas
               </ThemedText>
             </View>
@@ -90,21 +91,19 @@ const RegisterScreen = () => {
                 rules={{ required: true }}
                 name="username"
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <View className="bg-white border border-gray-100 p-4 rounded-lg shadow-sm">
-                    <TextInput
-                      placeholder="Nombre de usuario"
-                      placeholderTextColor="#9CA3AF"
-                      autoCapitalize="none"
-                      value={value}
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      className="text-base text-gray-800"
-                    />
-                  </View>
+                  <ThemedTextInput
+                    placeholder="Nombre de usuario"
+                    autoCapitalize="none"
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                  />
                 )}
               />
               {errors.username && (
-                <Text className="text-black">Este campo es obligatorio.</Text>
+                <ThemedText className="text-red-500 text-sm">
+                  Este campo es obligatorio.
+                </ThemedText>
               )}
 
               {/* Email */}
@@ -116,22 +115,20 @@ const RegisterScreen = () => {
                 }}
                 name="email"
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <View className="bg-white border border-gray-100 p-4 rounded-lg shadow-sm">
-                    <TextInput
-                      placeholder="Correo electrónico"
-                      placeholderTextColor="#9CA3AF"
-                      autoCapitalize="none"
-                      value={value}
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      keyboardType="email-address"
-                      className="text-base text-gray-800"
-                    />
-                  </View>
+                  <ThemedTextInput
+                    placeholder="Correo electrónico"
+                    autoCapitalize="none"
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    keyboardType="email-address"
+                  />
                 )}
               />
               {errors.email && (
-                <Text className="text-black">Introduce un correo válido.</Text>
+                <ThemedText className="text-red-500 text-sm">
+                  Introduce un correo válido.
+                </ThemedText>
               )}
 
               {/* Contraseña */}
@@ -140,22 +137,20 @@ const RegisterScreen = () => {
                 rules={{ required: true, minLength: 4 }}
                 name="password"
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <View className="bg-white border border-gray-100 p-4 rounded-lg shadow-sm">
-                    <TextInput
-                      placeholder="Contraseña"
-                      placeholderTextColor="#9CA3AF"
-                      autoCapitalize="none"
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      secureTextEntry
-                      value={value}
-                      className="text-base text-gray-800"
-                    />
-                  </View>
+                  <ThemedTextInput
+                    placeholder="Contraseña"
+                    autoCapitalize="none"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    secureTextEntry
+                    value={value}
+                  />
                 )}
               />
               {errors.password && (
-                <Text className="text-black">Mínimo 4 caracteres.</Text>
+                <ThemedText className="text-red-500 text-sm">
+                  Mínimo 4 caracteres.
+                </ThemedText>
               )}
 
               {/* Confirmar contraseña */}
@@ -168,25 +163,21 @@ const RegisterScreen = () => {
                 }}
                 name="confirmPassword"
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <View className="bg-white border border-gray-100 p-4 rounded-lg shadow-sm">
-                    <TextInput
-                      placeholder="Repetir contraseña"
-                      placeholderTextColor="#9CA3AF"
-                      autoCapitalize="none"
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      secureTextEntry
-                      value={value}
-                      className="text-base text-gray-800"
-                    />
-                  </View>
+                  <ThemedTextInput
+                    placeholder="Repetir contraseña"
+                    autoCapitalize="none"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    secureTextEntry
+                    value={value}
+                  />
                 )}
               />
               {errors.confirmPassword && (
-                <Text className="text-black">
+                <ThemedText className="text-red-500 text-sm">
                   {errors.confirmPassword.message ||
                     'Este campo es obligatorio.'}
-                </Text>
+                </ThemedText>
               )}
             </View>
 

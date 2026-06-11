@@ -1,3 +1,4 @@
+import { Colors } from '@/utils/constants';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React from 'react';
@@ -16,11 +17,13 @@ const LoginRequired = ({
 }: Props) => {
   return (
     <View className="flex-1 items-center justify-center gap-6 px-8">
-      <Ionicons name="lock-closed-outline" size={64} color="#f97316" />
+      <Ionicons name="lock-closed-outline" size={64} color={Colors.primary} />
       <ThemedText variant="h2" className="text-center">
         Necesitas una cuenta
       </ThemedText>
-      <ThemedText className="text-center text-gray-500">{message}</ThemedText>
+      <ThemedText className="text-center text-gray-500 dark:text-gray-400">
+        {message}
+      </ThemedText>
       <View className="w-full gap-3">
         <ThemedButton
           color="primary"

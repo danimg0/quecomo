@@ -4,10 +4,10 @@ import { twMerge } from 'tailwind-merge';
 
 // Mapa de estilos
 const variantMap = {
-  h1: 'text-2xl font-bold text-gray-900',
-  h2: 'text-xl font-bold text-gray-800',
-  h3: 'text-lg font-bold text-gray-800',
-  body: 'text-base text-gray-700', // text-base es el 16px estándar
+  h1: 'text-2xl font-bold text-gray-900 dark:text-gray-50',
+  h2: 'text-xl font-bold text-gray-800 dark:text-gray-100',
+  h3: 'text-lg font-bold text-gray-800 dark:text-gray-100',
+  body: 'text-base text-gray-700 dark:text-gray-300', // text-base es el 16px estándar
 };
 
 interface Props extends TextProps {

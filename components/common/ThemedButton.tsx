@@ -33,7 +33,9 @@ const ThemedButton = ({
         onPress={onPress}
         className={`w-ful rounded-lg p-4 ${finalClassName} bg-transparent`}
       >
-        <ThemedText className="text-black text-center ">{children}</ThemedText>
+        <ThemedText className="text-gray-800 dark:text-gray-200 text-center">
+          {children}
+        </ThemedText>
       </Pressable>
     );
   }
