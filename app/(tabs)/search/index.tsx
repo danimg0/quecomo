@@ -43,7 +43,7 @@ const SearchScreen = () => {
     <View className="p-4 h-full">
       {/* Texto a buscar */}
       <TextInput
-        className="border-2 border-gray-300 rounded-full placeholder:text-gray-400 p-4"
+        className="border-2 border-gray-300 dark:border-neutral-700 rounded-full placeholder:text-gray-400 dark:placeholder:text-gray-500 text-gray-800 dark:text-gray-100 p-4"
         value={title}
         placeholder="Buscar receta por nombre"
         onChangeText={setTitle}
